@@ -1,10 +1,13 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <raylib.h>
+#include "../headers/chess.h"
 #include <stdio.h>
 
-#define SCREEN_WIDTH 600
-#define SCREEN_HEIGHT 400
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 800
+
+#define CHESS_PIECE 64
 
 int main(char *args)
 {
@@ -13,15 +16,22 @@ int main(char *args)
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Chess_Online");
 
-    const Width = SCREEN_WIDTH / 2;
-    const Height = SCREEN_HEIGHT / 2;
+    const Width = (SCREEN_WIDTH - (CHESS_PIECE * 8)) / 2;
+    const Height = (SCREEN_HEIGHT - (CHESS_PIECE * 8)) / 2;
 
-    const rectWidth = 32 * 2;
-    const rectHeight = 32 * 2;
-    
-    Rectangle rec = {Width - (rectWidth), Height - (rectHeight), rectWidth, rectHeight};
+    const rectWidth = CHESS_PIECE;
+    const rectHeight = CHESS_PIECE;
 
-    Rectangle rec2 = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4 + 100, 200, 80};
+    Board board = {};
+
+    board.height = 8;
+    board.width = 8;
+
+    InitializeBoardColors(&board);
+
+    Rectangle rec = {(Width - rectWidth) - CHESS_PIECE, (Height - rectHeight) - CHESS_PIECE, rectWidth, rectHeight};
+
+    Rectangle rec2 = {(Width - rectWidth), (Height - rectHeight), rectWidth, rectHeight};
 
     Vector2 mousePosition = {0};
 
@@ -38,9 +48,11 @@ int main(char *args)
 
         ClearBackground(BLACK);
 
-        DrawRectangleRec(rec, Fade(GREEN, 0.5f));
-        // DrawLine(Width,Height,Width + 20,Height + 20,RED);
+        BoardUpdate(&board,Width,Height);
+
+        // DrawRectangleRec(rec, Fade(GREEN, 0.5f));
         // DrawRectangleRec(rec2, Fade(GREEN, 0.5f));
+        // DrawLine(Width,Height,Width + 20,Height + 20,RED);
 
         EndDrawing();
     }
