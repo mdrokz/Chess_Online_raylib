@@ -6,13 +6,13 @@
 
 typedef enum PieceType
 {
+    None,
     Knight,
     Rook,
     Queen,
     King,
     Pawn,
-    Bishop,
-    None
+    Bishop
 
 } PieceInfo;
 
@@ -82,25 +82,3 @@ void BoardUpdate(Board *board,int screenWidth,int screenHeight)
         }
     }
 }
-
-/*
-
-board->containers[x][y].color = y % 2 ? WHITE : RED;
-            board->containers[x][y].height = CHESS_PIECE;
-            board->containers[x][y].width = CHESS_PIECE;
-            
-            board->containers[x][y].rect.width = 64;
-            board->containers[x][y].rect.height = 64;
-            board->containers[x][y].rect.x = 384;
-            board->containers[x][y].rect.y = 144;
-
-            DrawRectangleRec(board->containers[x][y].rect,board->containers[x][y].color);
-
-            board->containers[x][y].rect.width = 64;
-            board->containers[x][y].rect.height = 64;
-            board->containers[x][y].rect.x = 384 + 64;
-            board->containers[x][y].rect.y = 144 + 64;
-
-            DrawRectangleRec(board->containers[x][y].rect,RED);
-
- */
