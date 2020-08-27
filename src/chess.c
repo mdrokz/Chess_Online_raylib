@@ -45,12 +45,10 @@ void InitializeBoardColors(Board* board) {
 
     for (int x = 0; x < boardWidth; x++)
     {
-        Color color = b ? WHITE : GRAY;
-        board->containers[x][0].color = color;
+        board->containers[x][0].color = b ? WHITE : GRAY;
         for (int y = 0; y < boardHeight; y++)
         {
-            color = b ? WHITE : GRAY;
-            board->containers[x][y].color = color;
+            board->containers[x][y].color = b ? WHITE : GRAY;
 
             b = !b;
         }

@@ -1,5 +1,14 @@
 #include "../headers/chess.h"
 
+typedef enum Patterns {
+
+    Diagonal,
+    HV,
+    All,
+    L
+
+} Patterns;
+
 typedef struct Piece {
 
     int range;
@@ -11,13 +20,3 @@ typedef struct Piece {
     int index[];
 
 } Piece;
-
-
-typedef enum Patterns {
-
-    Diagonal,
-    HV,
-    All,
-    L
-
-} Patterns;
