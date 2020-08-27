@@ -41,7 +41,7 @@ int main(char *args)
 
         ClearBackground(BLACK);
 
-        BoardUpdate(&board,Width,Height);
+        BoardUpdate(&board, Width, Height);
 
         EndDrawing();
     }

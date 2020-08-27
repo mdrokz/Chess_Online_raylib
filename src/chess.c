@@ -3,7 +3,6 @@
 
 #define CHESS_PIECE 64
 
-
 typedef enum PieceType
 {
     None,
@@ -23,7 +22,7 @@ typedef struct Square
     Color color;
     int width;
     int height;
-    char* containerName;
+    char *containerName;
     Rectangle rect;
 
 } Container;
@@ -36,28 +35,30 @@ typedef struct Grid
 
 } Board;
 
-void InitializeBoardColors(Board* board) {
+void InitializeBoardColors(Board *board)
+{
 
     int boardWidth = board->width;
     int boardHeight = board->height;
 
-    int b = 1;
-
     for (int x = 0; x < boardWidth; x++)
     {
-        board->containers[x][0].color = b ? WHITE : GRAY;
         for (int y = 0; y < boardHeight; y++)
         {
-            board->containers[x][y].color = b ? WHITE : GRAY;
+            if ((x + y) % 2 == 0)
+            {
 
-            b = !b;
+                board->containers[x][y].color = WHITE;
+            }
+            else
+            {
+                board->containers[x][y].color = GRAY;
+            }
         }
-        
-        b = !b;
     }
 }
 
-void BoardUpdate(Board *board,int screenWidth,int screenHeight)
+void BoardUpdate(Board *board, int screenWidth, int screenHeight)
 {
 
     int boardWidth = board->width;
@@ -69,14 +70,13 @@ void BoardUpdate(Board *board,int screenWidth,int screenHeight)
         {
             board->containers[x][y].height = CHESS_PIECE;
             board->containers[x][y].width = CHESS_PIECE;
-            
+
             board->containers[x][y].rect.width = CHESS_PIECE;
             board->containers[x][y].rect.height = CHESS_PIECE;
             board->containers[x][y].rect.x = screenWidth + (CHESS_PIECE * x);
             board->containers[x][y].rect.y = screenHeight + (CHESS_PIECE * y);
 
-            DrawRectangleRec(board->containers[x][y].rect,board->containers[x][y].color);
-
+            DrawRectangleRec(board->containers[x][y].rect, board->containers[x][y].color);
         }
     }
 }

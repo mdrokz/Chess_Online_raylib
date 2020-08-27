@@ -1,19 +1,20 @@
 #include "../headers/chess.h"
 
-typedef struct Piece {
+typedef struct Piece
+{
 
     int range;
     Patterns movePattern;
-    char* displayName;
+    char *displayName;
     PieceInfo piece;
     int x;
     int y;
-    int index[];
+    int index[1];
 
 } Piece;
 
-
-typedef enum Patterns {
+typedef enum Patterns
+{
 
     Diagonal,
     HV,

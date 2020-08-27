@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <raylib.h>
 
-typedef enum PieceType {
+typedef enum PieceType
+{
     Knight,
     Rook,
     Queen,
@@ -12,26 +13,28 @@ typedef enum PieceType {
 
 } PieceInfo;
 
-typedef struct Square {
+typedef struct Square
+{
 
     PieceInfo Piece;
     Color color;
     int width;
     int height;
-    char* containerName;
+    char *containerName;
     Rectangle rect;
 
 } Container;
 
-typedef struct Grid {
+typedef struct Grid
+{
     int width;
     int height;
     Container containers[8][8];
 
 } Board;
 
-void BoardUpdate(Board* board,int screenWidth,int screenHeight);
+void BoardUpdate(Board *board, int screenWidth, int screenHeight);
 
-void ContainerUpdate(Container* container);
+void ContainerUpdate(Container *container);
 
-void InitializeBoardColors(Board* board);
+void InitializeBoardColors(Board *board);
