@@ -4,8 +4,8 @@
 #include "../headers/chess.h"
 #include <stdio.h>
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 900
+#define SCREEN_HEIGHT 600
 
 #define CHESS_PIECE 64
 
@@ -24,7 +24,7 @@ int main(char *args)
     board.height = 8;
     board.width = 8;
 
-    InitializeBoardColors(&board);
+    InitializeBoard(&board,Width, Height);
 
     Vector2 mousePosition = {0};
 
@@ -41,7 +41,7 @@ int main(char *args)
 
         ClearBackground(BLACK);
 
-        BoardUpdate(&board, Width, Height);
+        BoardUpdate(&board);
 
         EndDrawing();
     }

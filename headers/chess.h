@@ -1,22 +1,12 @@
 #include <stdlib.h>
 #include <raylib.h>
+#include "../headers/pieces.h";
 
-typedef enum PieceType
-{
-    Knight,
-    Rook,
-    Queen,
-    King,
-    Pawn,
-    Bishop,
-    None
-
-} PieceInfo;
 
 typedef struct Square
 {
 
-    PieceInfo Piece;
+    Piece Piece;
     Color color;
     int width;
     int height;
@@ -33,8 +23,8 @@ typedef struct Grid
 
 } Board;
 
-void BoardUpdate(Board *board, int screenWidth, int screenHeight);
+void BoardUpdate(Board *board);
 
 void ContainerUpdate(Container *container);
 
-void InitializeBoardColors(Board *board);
+void InitializeBoard(Board *board,int screenWidth, int screenHeight);

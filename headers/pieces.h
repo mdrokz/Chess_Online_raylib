@@ -1,17 +1,16 @@
-#include "../headers/chess.h"
+#include "raylib.h"
 
-typedef struct Piece
+typedef enum PieceType
 {
+    None,
+    Knight,
+    Rook,
+    Queen,
+    King,
+    Pawn,
+    Bishop
 
-    int range;
-    Patterns movePattern;
-    char *displayName;
-    PieceInfo piece;
-    int x;
-    int y;
-    int index[1];
-
-} Piece;
+} PieceInfo;
 
 typedef enum Patterns
 {
@@ -22,3 +21,17 @@ typedef enum Patterns
     L
 
 } Patterns;
+
+typedef struct Piece
+{
+
+    int range;
+    Patterns movePattern;
+    char *displayName;
+    PieceInfo piece;
+    Texture2D texture;
+    int x;
+    int y;
+    int index[1];
+
+} Piece;

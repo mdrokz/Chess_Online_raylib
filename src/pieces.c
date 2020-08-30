@@ -1,4 +1,14 @@
-#include "../headers/chess.h"
+typedef enum PieceType
+{
+    None,
+    Knight,
+    Rook,
+    Queen,
+    King,
+    Pawn,
+    Bishop
+
+} PieceInfo;
 
 typedef enum Patterns
 {
