@@ -25,6 +25,8 @@ typedef struct Grid
 
 void BoardUpdate(Board *board);
 
+void PieceUpdate(Container *container);
+
 void ContainerUpdate(Container *container);
 
 void InitializeBoard(Board *board,int screenWidth, int screenHeight);

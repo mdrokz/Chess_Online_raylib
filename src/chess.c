@@ -44,6 +44,8 @@ typedef struct Grid
 
 } Board;
 
+Vector2 mousePosition = {0};
+
 void InitializeBoard(Board *board, int screenWidth, int screenHeight)
 {
 
@@ -106,20 +108,8 @@ void InitializeBoard(Board *board, int screenWidth, int screenHeight)
 #pragma endregion
 }
 
-void BoardUpdate(Board *board)
+void DrawBoard(Board *board)
 {
-
-    int boardWidth = board->width;
-    int boardHeight = board->height;
-
-    for (int x = 0; x < boardWidth; x++)
-    {
-        for (int y = 0; y < boardHeight; y++)
-        {
-            DrawRectangleRec(board->containers[x][y].rect, board->containers[x][y].color);
-        }
-    }
-
     for (int i = 0; i < 5; i++)
     {
         DrawTexture(board->containers[i][0].piece.texture, board->containers[i][0].rect.x, board->containers[i][0].rect.y, WHITE);
@@ -139,4 +129,35 @@ void BoardUpdate(Board *board)
         DrawTexture(board->containers[c][1].piece.texture, board->containers[c][1].rect.x, board->containers[c][1].rect.y, WHITE);
         DrawTexture(board->containers[c][6].piece.texture, board->containers[c][6].rect.x, board->containers[c][6].rect.y, WHITE);
     }
+}
+
+void PieceUpdate(Container *container)
+{
+    DrawRectangleRec(container->rect, container->color);
+
+    mousePosition = GetMousePosition();
+
+    if (IsMouseButtonDown(0))
+    {
+    }
+    else if (IsMouseButtonReleased(0))
+    {
+    }
+}
+
+void BoardUpdate(Board *board)
+{
+
+    int boardWidth = board->width;
+    int boardHeight = board->height;
+
+    for (int x = 0; x < boardWidth; x++)
+    {
+        for (int y = 0; y < boardHeight; y++)
+        {
+            PieceUpdate(&board->containers[x][y]);
+        }
+    }
+
+    DrawBoard(board);
 }

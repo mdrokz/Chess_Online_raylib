@@ -26,17 +26,11 @@ int main(char *args)
 
     InitializeBoard(&board,Width, Height);
 
-    Vector2 mousePosition = {0};
-
-    bool mouseScaleReady = false;
-    bool mouseScaleMode = false;
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
-        mousePosition = GetMousePosition();
-
         BeginDrawing();
 
         ClearBackground(BLACK);
