@@ -2,7 +2,7 @@
 #include <raylib.h>
 #include <string.h>
 #include <stdio.h>
-#include "../headers/pieces.h"
+#include "../headers/piece_logic.h"
 
 #define CHESS_PIECE 64
 
@@ -23,6 +23,8 @@ static const char *black_pieces[6] = {"./assets/chess_pieces/black/piece_black_r
                                       "./assets/chess_pieces/black/piece_black_pawn.png"};
 
 static char *asset_path = "./assets/chess_pieces/";
+
+static PieceInfo pieces[] = {Rook, Knight, Bishop, King, Queen, Pawn};
 
 typedef struct Square
 {
@@ -46,15 +48,74 @@ typedef struct Grid
 
 Vector2 mousePosition = {0};
 
+static void InitializePieces(Container containers[8][8])
+{
+    int white_pieces_length = LENGTH(white_pieces);
+    // load white piece textures
+#pragma region Initialize white piece textures
+    for (int i = 0; i < white_pieces_length - 1; i++)
+    {
+        // set texture,pieceType and position of piece inside container
+        containers[i][0].piece.texture = LoadTexture(white_pieces[i]);
+        containers[i][0].piece.pieceType = pieces[i];
+
+        containers[i][0].piece.x = containers[i][0].rect.x;
+        containers[i][0].piece.y = containers[i][0].rect.y;
+
+        containers[i][7].piece.texture = LoadTexture(black_pieces[i]);
+        containers[i][7].piece.pieceType = pieces[i];
+
+        containers[i][7].piece.x = containers[i][0].rect.x;
+        containers[i][7].piece.y = containers[i][0].rect.y;
+    }
+    containers[5][0].piece.texture = LoadTexture(white_pieces[2]);
+    containers[5][0].piece.pieceType = pieces[2];
+
+    containers[6][0].piece.texture = LoadTexture(white_pieces[1]);
+    containers[6][0].piece.pieceType = pieces[1];
+
+    containers[7][0].piece.texture = LoadTexture(white_pieces[0]);
+    containers[7][0].piece.pieceType = pieces[0];
+
+    containers[5][0].piece.x = containers[5][0].rect.x;
+    containers[5][0].piece.y = containers[5][0].rect.y;
+
+    containers[6][0].piece.x = containers[5][0].rect.x;
+    containers[6][0].piece.y = containers[5][0].rect.y;
+
+    containers[7][0].piece.x = containers[7][0].rect.x;
+    containers[7][0].piece.y = containers[7][0].rect.y;
+
+// load black piece textures
+#pragma region Initialize black piece textures
+    containers[5][7].piece.texture = LoadTexture(black_pieces[2]);
+    containers[5][7].piece.pieceType = pieces[2];
+
+    containers[6][7].piece.texture = LoadTexture(black_pieces[1]);
+    containers[6][7].piece.pieceType = pieces[1];
+
+    containers[7][7].piece.texture = LoadTexture(black_pieces[0]);
+    containers[7][7].piece.pieceType = pieces[0];
+#pragma endregion
+
+    for (int c = 0; c < 8; c++)
+    {
+        containers[c][1].piece.texture = LoadTexture(white_pieces[5]);
+        containers[c][1].piece.pieceType = pieces[5];
+
+        containers[c][6].piece.texture = LoadTexture(black_pieces[5]);
+        containers[c][6].piece.pieceType = pieces[5];
+    }
+
+#pragma endregion
+}
+
 void InitializeBoard(Board *board, int screenWidth, int screenHeight)
 {
 
 #pragma region Initialize Board
     int boardWidth = board->width;
     int boardHeight = board->height;
-    int white_pieces_length = LENGTH(white_pieces);
-    int black_pieces_length = LENGTH(black_pieces);
-
     for (int x = 0; x < boardWidth; x++)
     {
         for (int y = 0; y < boardHeight; y++)
@@ -81,34 +142,10 @@ void InitializeBoard(Board *board, int screenWidth, int screenHeight)
     }
 #pragma endregion
 
-// load white piece textures
-#pragma region Initialize white piece textures
-    for (int i = 0; i < white_pieces_length - 1; i++)
-    {
-        board->containers[i][0].piece.texture = LoadTexture(white_pieces[i]);
-        board->containers[i][7].piece.texture = LoadTexture(black_pieces[i]);
-    }
-    board->containers[5][0].piece.texture = LoadTexture(white_pieces[2]);
-    board->containers[6][0].piece.texture = LoadTexture(white_pieces[1]);
-    board->containers[7][0].piece.texture = LoadTexture(white_pieces[0]);
-
-// load black piece textures
-#pragma region Initialize black piece textures
-    board->containers[5][7].piece.texture = LoadTexture(black_pieces[2]);
-    board->containers[6][7].piece.texture = LoadTexture(black_pieces[1]);
-    board->containers[7][7].piece.texture = LoadTexture(black_pieces[0]);
-#pragma endregion
-
-    for (int c = 0; c < 8; c++)
-    {
-        board->containers[c][1].piece.texture = LoadTexture(white_pieces[5]);
-        board->containers[c][6].piece.texture = LoadTexture(black_pieces[5]);
-    }
-
-#pragma endregion
+    InitializePieces(board->containers);
 }
 
-void DrawBoard(Board *board)
+static void DrawPieces(Board *board)
 {
     for (int i = 0; i < 5; i++)
     {
@@ -124,6 +161,7 @@ void DrawBoard(Board *board)
     DrawTexture(board->containers[6][7].piece.texture, board->containers[6][7].rect.x, board->containers[6][7].rect.y, WHITE);
     DrawTexture(board->containers[7][7].piece.texture, board->containers[7][7].rect.x, board->containers[7][7].rect.y, WHITE);
 
+
     for (int c = 0; c < 8; c++)
     {
         DrawTexture(board->containers[c][1].piece.texture, board->containers[c][1].rect.x, board->containers[c][1].rect.y, WHITE);
@@ -131,17 +169,20 @@ void DrawBoard(Board *board)
     }
 }
 
-void PieceUpdate(Container *container)
+static void PieceUpdate(Container *container)
 {
-    DrawRectangleRec(container->rect, container->color);
 
     mousePosition = GetMousePosition();
 
+    PieceInfo pieceType = container->piece.pieceType;
+
     if (IsMouseButtonDown(0))
     {
+        OnPieceDown(pieceType);
     }
     else if (IsMouseButtonReleased(0))
     {
+        OnPieceReleased(pieceType);
     }
 }
 
@@ -155,9 +196,15 @@ void BoardUpdate(Board *board)
     {
         for (int y = 0; y < boardHeight; y++)
         {
-            PieceUpdate(&board->containers[x][y]);
+            DrawRectangleRec(board->containers[x][y].rect, board->containers[x][y].color);
+            Piece piece = board->containers[x][y].piece;
+
+            if (piece.pieceType != None)
+            {
+                PieceUpdate(&board->containers[x][y]);
+            }
         }
     }
 
-    DrawBoard(board);
+    DrawPieces(board);
 }

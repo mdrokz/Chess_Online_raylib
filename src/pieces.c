@@ -26,7 +26,7 @@ typedef struct Piece
     int range;
     Patterns movePattern;
     char *displayName;
-    PieceInfo piece;
+    PieceInfo pieceType;
     int x;
     int y;
     int index[1];

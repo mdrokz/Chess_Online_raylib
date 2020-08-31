@@ -28,7 +28,7 @@ typedef struct Piece
     int range;
     Patterns movePattern;
     char *displayName;
-    PieceInfo piece;
+    PieceInfo pieceType;
     Texture2D texture;
     int x;
     int y;
