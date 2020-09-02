@@ -30,8 +30,9 @@ typedef struct Piece
     char *displayName;
     PieceInfo pieceType;
     Texture2D texture;
-    int x;
-    int y;
+    Vector2 prevPosition;
+    Vector2 position;
+    int down;
     int index[1];
 
 } Piece;

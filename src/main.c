@@ -27,7 +27,7 @@ int main(char *args)
     InitializeBoard(&board,Width, Height);
 
 
-    SetTargetFPS(60);
+    SetTargetFPS(165);
 
     while (!WindowShouldClose())
     {
@@ -36,6 +36,10 @@ int main(char *args)
         ClearBackground(BLACK);
 
         BoardUpdate(&board);
+
+        #ifndef DEBUG
+        DrawFPS(0,0);
+        #endif
 
         EndDrawing();
     }

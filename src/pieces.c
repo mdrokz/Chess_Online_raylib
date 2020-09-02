@@ -28,6 +28,7 @@ typedef struct Piece
     char *displayName;
     PieceInfo pieceType;
     int x;
+    int down;
     int y;
     int index[1];
 

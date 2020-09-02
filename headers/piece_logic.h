@@ -1,5 +1,6 @@
 #include "../headers/pieces.h"
+#include <raylib.h>
 
-void OnPieceDown(PieceInfo pieceType);
+void OnPieceDown(Piece *piece, Vector2 mousePosition);
 
-void OnPieceReleased(PieceInfo pieceType);
+void OnPieceReleased(Piece *piece, Vector2 mousePosition);

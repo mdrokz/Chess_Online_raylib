@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <raylib.h>
 #include <string.h>
 #include <stdio.h>
 #include "../headers/piece_logic.h"
@@ -59,14 +58,14 @@ static void InitializePieces(Container containers[8][8])
         containers[i][0].piece.texture = LoadTexture(white_pieces[i]);
         containers[i][0].piece.pieceType = pieces[i];
 
-        containers[i][0].piece.x = containers[i][0].rect.x;
-        containers[i][0].piece.y = containers[i][0].rect.y;
+        containers[i][0].piece.position.x = containers[i][0].rect.x;
+        containers[i][0].piece.position.y = containers[i][0].rect.y;
 
         containers[i][7].piece.texture = LoadTexture(black_pieces[i]);
         containers[i][7].piece.pieceType = pieces[i];
 
-        containers[i][7].piece.x = containers[i][0].rect.x;
-        containers[i][7].piece.y = containers[i][0].rect.y;
+        containers[i][7].piece.position.x = containers[i][7].rect.x;
+        containers[i][7].piece.position.y = containers[i][7].rect.y;
     }
     containers[5][0].piece.texture = LoadTexture(white_pieces[2]);
     containers[5][0].piece.pieceType = pieces[2];
@@ -77,25 +76,34 @@ static void InitializePieces(Container containers[8][8])
     containers[7][0].piece.texture = LoadTexture(white_pieces[0]);
     containers[7][0].piece.pieceType = pieces[0];
 
-    containers[5][0].piece.x = containers[5][0].rect.x;
-    containers[5][0].piece.y = containers[5][0].rect.y;
+    containers[5][0].piece.position.x = containers[5][0].rect.x;
+    containers[5][0].piece.position.y = containers[5][0].rect.y;
 
-    containers[6][0].piece.x = containers[5][0].rect.x;
-    containers[6][0].piece.y = containers[5][0].rect.y;
+    containers[6][0].piece.position.x = containers[6][0].rect.x;
+    containers[6][0].piece.position.y = containers[6][0].rect.y;
 
-    containers[7][0].piece.x = containers[7][0].rect.x;
-    containers[7][0].piece.y = containers[7][0].rect.y;
+    containers[7][0].piece.position.x = containers[7][0].rect.x;
+    containers[7][0].piece.position.y = containers[7][0].rect.y;
 
 // load black piece textures
 #pragma region Initialize black piece textures
     containers[5][7].piece.texture = LoadTexture(black_pieces[2]);
     containers[5][7].piece.pieceType = pieces[2];
 
+    containers[5][7].piece.position.x = containers[5][7].rect.x;
+    containers[5][7].piece.position.y = containers[5][7].rect.y;
+
     containers[6][7].piece.texture = LoadTexture(black_pieces[1]);
     containers[6][7].piece.pieceType = pieces[1];
 
+    containers[6][7].piece.position.x = containers[6][7].rect.x;
+    containers[6][7].piece.position.y = containers[6][7].rect.y;
+
     containers[7][7].piece.texture = LoadTexture(black_pieces[0]);
     containers[7][7].piece.pieceType = pieces[0];
+
+    containers[7][7].piece.position.x = containers[7][7].rect.x;
+    containers[7][7].piece.position.y = containers[7][7].rect.y;
 #pragma endregion
 
     for (int c = 0; c < 8; c++)
@@ -103,8 +111,14 @@ static void InitializePieces(Container containers[8][8])
         containers[c][1].piece.texture = LoadTexture(white_pieces[5]);
         containers[c][1].piece.pieceType = pieces[5];
 
+        containers[c][1].piece.position.x = containers[c][1].rect.x;
+        containers[c][1].piece.position.y = containers[c][1].rect.y;
+
         containers[c][6].piece.texture = LoadTexture(black_pieces[5]);
         containers[c][6].piece.pieceType = pieces[5];
+
+        containers[c][6].piece.position.x = containers[c][6].rect.x;
+        containers[c][6].piece.position.y = containers[c][6].rect.y;
     }
 
 #pragma endregion
@@ -149,23 +163,22 @@ static void DrawPieces(Board *board)
 {
     for (int i = 0; i < 5; i++)
     {
-        DrawTexture(board->containers[i][0].piece.texture, board->containers[i][0].rect.x, board->containers[i][0].rect.y, WHITE);
-        DrawTexture(board->containers[i][7].piece.texture, board->containers[i][7].rect.x, board->containers[i][7].rect.y, WHITE);
+        DrawTextureV(board->containers[i][0].piece.texture, board->containers[i][0].piece.position, WHITE);
+        DrawTextureV(board->containers[i][7].piece.texture, board->containers[i][7].piece.position, WHITE);
     }
 
-    DrawTexture(board->containers[5][0].piece.texture, board->containers[5][0].rect.x, board->containers[5][0].rect.y, WHITE);
-    DrawTexture(board->containers[6][0].piece.texture, board->containers[6][0].rect.x, board->containers[6][0].rect.y, WHITE);
-    DrawTexture(board->containers[7][0].piece.texture, board->containers[7][0].rect.x, board->containers[7][0].rect.y, WHITE);
+    DrawTextureV(board->containers[5][0].piece.texture, board->containers[5][0].piece.position, WHITE);
+    DrawTextureV(board->containers[6][0].piece.texture, board->containers[6][0].piece.position, WHITE);
+    DrawTextureV(board->containers[7][0].piece.texture, board->containers[7][0].piece.position, WHITE);
 
-    DrawTexture(board->containers[5][7].piece.texture, board->containers[5][7].rect.x, board->containers[5][7].rect.y, WHITE);
-    DrawTexture(board->containers[6][7].piece.texture, board->containers[6][7].rect.x, board->containers[6][7].rect.y, WHITE);
-    DrawTexture(board->containers[7][7].piece.texture, board->containers[7][7].rect.x, board->containers[7][7].rect.y, WHITE);
-
+    DrawTextureV(board->containers[5][7].piece.texture, board->containers[5][7].piece.position, WHITE);
+    DrawTextureV(board->containers[6][7].piece.texture, board->containers[6][7].piece.position, WHITE);
+    DrawTextureV(board->containers[7][7].piece.texture, board->containers[7][7].piece.position, WHITE);
 
     for (int c = 0; c < 8; c++)
     {
-        DrawTexture(board->containers[c][1].piece.texture, board->containers[c][1].rect.x, board->containers[c][1].rect.y, WHITE);
-        DrawTexture(board->containers[c][6].piece.texture, board->containers[c][6].rect.x, board->containers[c][6].rect.y, WHITE);
+        DrawTextureV(board->containers[c][1].piece.texture, board->containers[c][1].piece.position, WHITE);
+        DrawTextureV(board->containers[c][6].piece.texture, board->containers[c][6].piece.position, WHITE);
     }
 }
 
@@ -174,15 +187,27 @@ static void PieceUpdate(Container *container)
 
     mousePosition = GetMousePosition();
 
-    PieceInfo pieceType = container->piece.pieceType;
+    Piece *piece = &container->piece;
+
+    Rectangle rect = container->rect;
+
+    if (IsMouseButtonPressed(0))
+    {
+        if (CheckCollisionPointRec(mousePosition, rect))
+        {
+            piece->down = 1;
+            piece->prevPosition.x = piece->position.x;
+            piece->prevPosition.y = piece->position.y;
+        }
+    }
 
     if (IsMouseButtonDown(0))
     {
-        OnPieceDown(pieceType);
+        OnPieceDown(piece, mousePosition);
     }
     else if (IsMouseButtonReleased(0))
     {
-        OnPieceReleased(pieceType);
+        OnPieceReleased(piece, mousePosition);
     }
 }
 
