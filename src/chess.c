@@ -25,26 +25,6 @@ static char *asset_path = "./assets/chess_pieces/";
 
 static PieceInfo pieces[] = {Rook, Knight, Bishop, King, Queen, Pawn};
 
-typedef struct Square
-{
-
-    Piece piece;
-    Color color;
-    int width;
-    int height;
-    char *containerName;
-    Rectangle rect;
-
-} Container;
-
-typedef struct Grid
-{
-    int width;
-    int height;
-    Container containers[8][8];
-
-} Board;
-
 Vector2 mousePosition = {0};
 
 static void InitializePieces(Container containers[8][8])
@@ -55,26 +35,46 @@ static void InitializePieces(Container containers[8][8])
     for (int i = 0; i < white_pieces_length - 1; i++)
     {
         // set texture,pieceType and position of piece inside container
-        containers[i][0].piece.texture = LoadTexture(white_pieces[i]);
+        containers[i][0].piece.texture = LoadTexture(black_pieces[i]);
         containers[i][0].piece.pieceType = pieces[i];
+        containers[i][0].piece.color = 0;
+
+        containers[i][0].piece.indX = i;
+        containers[i][0].piece.indY = 0;
+
+        containers[i][7].piece.indX = i;
+        containers[i][7].piece.indY = 7;
 
         containers[i][0].piece.position.x = containers[i][0].rect.x;
         containers[i][0].piece.position.y = containers[i][0].rect.y;
 
-        containers[i][7].piece.texture = LoadTexture(black_pieces[i]);
+        containers[i][7].piece.texture = LoadTexture(white_pieces[i]);
         containers[i][7].piece.pieceType = pieces[i];
+        containers[i][7].piece.color = 1;
 
         containers[i][7].piece.position.x = containers[i][7].rect.x;
         containers[i][7].piece.position.y = containers[i][7].rect.y;
     }
-    containers[5][0].piece.texture = LoadTexture(white_pieces[2]);
+    containers[5][0].piece.texture = LoadTexture(black_pieces[2]);
     containers[5][0].piece.pieceType = pieces[2];
+    containers[5][0].piece.color = 0;
 
-    containers[6][0].piece.texture = LoadTexture(white_pieces[1]);
+    containers[5][0].piece.indX = 5;
+    containers[5][0].piece.indY = 0;
+
+    containers[6][0].piece.texture = LoadTexture(black_pieces[1]);
     containers[6][0].piece.pieceType = pieces[1];
+    containers[6][0].piece.color = 0;
 
-    containers[7][0].piece.texture = LoadTexture(white_pieces[0]);
+    containers[6][0].piece.indX = 6;
+    containers[6][0].piece.indY = 0;
+
+    containers[7][0].piece.texture = LoadTexture(black_pieces[0]);
     containers[7][0].piece.pieceType = pieces[0];
+    containers[7][0].piece.color = 0;
+
+    containers[7][0].piece.indX = 7;
+    containers[7][0].piece.indY = 0;
 
     containers[5][0].piece.position.x = containers[5][0].rect.x;
     containers[5][0].piece.position.y = containers[5][0].rect.y;
@@ -87,20 +87,32 @@ static void InitializePieces(Container containers[8][8])
 
 // load black piece textures
 #pragma region Initialize black piece textures
-    containers[5][7].piece.texture = LoadTexture(black_pieces[2]);
+    containers[5][7].piece.texture = LoadTexture(white_pieces[2]);
     containers[5][7].piece.pieceType = pieces[2];
+    containers[5][7].piece.color = 1;
 
     containers[5][7].piece.position.x = containers[5][7].rect.x;
     containers[5][7].piece.position.y = containers[5][7].rect.y;
 
-    containers[6][7].piece.texture = LoadTexture(black_pieces[1]);
+    containers[5][7].piece.indX = 5;
+    containers[5][7].piece.indY = 7;
+
+    containers[6][7].piece.texture = LoadTexture(white_pieces[1]);
     containers[6][7].piece.pieceType = pieces[1];
+    containers[6][7].piece.color = 1;
+
+    containers[6][7].piece.indX = 6;
+    containers[6][7].piece.indY = 7;
 
     containers[6][7].piece.position.x = containers[6][7].rect.x;
     containers[6][7].piece.position.y = containers[6][7].rect.y;
 
-    containers[7][7].piece.texture = LoadTexture(black_pieces[0]);
+    containers[7][7].piece.texture = LoadTexture(white_pieces[0]);
     containers[7][7].piece.pieceType = pieces[0];
+    containers[7][7].piece.color = 1;
+
+    containers[7][7].piece.indX = 7;
+    containers[7][7].piece.indY = 7;
 
     containers[7][7].piece.position.x = containers[7][7].rect.x;
     containers[7][7].piece.position.y = containers[7][7].rect.y;
@@ -108,14 +120,22 @@ static void InitializePieces(Container containers[8][8])
 
     for (int c = 0; c < 8; c++)
     {
-        containers[c][1].piece.texture = LoadTexture(white_pieces[5]);
+        containers[c][1].piece.texture = LoadTexture(black_pieces[5]);
         containers[c][1].piece.pieceType = pieces[5];
+        containers[c][1].piece.color = 0;
 
         containers[c][1].piece.position.x = containers[c][1].rect.x;
         containers[c][1].piece.position.y = containers[c][1].rect.y;
 
-        containers[c][6].piece.texture = LoadTexture(black_pieces[5]);
+        containers[c][1].piece.indX = c;
+        containers[c][1].piece.indY = 1;
+
+        containers[c][6].piece.texture = LoadTexture(white_pieces[5]);
         containers[c][6].piece.pieceType = pieces[5];
+        containers[c][6].piece.color = 1;
+
+        containers[c][6].piece.indX = c;
+        containers[c][6].piece.indY = 6;
 
         containers[c][6].piece.position.x = containers[c][6].rect.x;
         containers[c][6].piece.position.y = containers[c][6].rect.y;
@@ -182,7 +202,7 @@ static void DrawPieces(Board *board)
     }
 }
 
-static void PieceUpdate(Container *container)
+static void PieceUpdate(Container *container, Container containers[8][8])
 {
 
     mousePosition = GetMousePosition();
@@ -193,6 +213,7 @@ static void PieceUpdate(Container *container)
 
     if (IsMouseButtonPressed(0))
     {
+        mousePosition.x = mousePosition.x - 4;
         if (CheckCollisionPointRec(mousePosition, rect))
         {
             piece->down = 1;
@@ -201,13 +222,13 @@ static void PieceUpdate(Container *container)
         }
     }
 
-    if (IsMouseButtonDown(0))
+    if (IsMouseButtonDown(0) && piece->down)
     {
-        OnPieceDown(piece, mousePosition);
+        OnPieceDown(piece, containers, mousePosition);
     }
-    else if (IsMouseButtonReleased(0))
+    else if (IsMouseButtonReleased(0) && piece->down)
     {
-        OnPieceReleased(piece, mousePosition);
+        OnPieceReleased(piece, containers, mousePosition);
     }
 }
 
@@ -226,7 +247,7 @@ void BoardUpdate(Board *board)
 
             if (piece.pieceType != None)
             {
-                PieceUpdate(&board->containers[x][y]);
+                PieceUpdate(&board->containers[x][y], board->containers);
             }
         }
     }

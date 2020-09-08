@@ -1,3 +1,5 @@
+#include <raylib.h>
+
 typedef enum PieceType
 {
     None,
@@ -30,6 +32,28 @@ typedef struct Piece
     int x;
     int down;
     int y;
-    int index[1];
+    int indX;
+    int indY;
 
 } Piece;
+
+
+typedef struct Square
+{
+
+    Piece piece;
+    Color color;
+    int width;
+    int height;
+    char *containerName;
+    Rectangle rect;
+
+} Container;
+
+typedef struct Grid
+{
+    int width;
+    int height;
+    Container containers[8][8];
+
+} Board;

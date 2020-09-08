@@ -1,23 +1,6 @@
 #include "../headers/pieces.h"
-// #include <raylib.h>
 
-// typedef enum PieceType
-// {
-//     None,
-//     Knight,
-//     Rook,
-//     Queen,
-//     King,
-//     Pawn,
-//     Bishop
-
-// } PieceInfo;
-
-// int originalPieceX = 0;
-// int originalPieceY = 0;
-// int down = 0;
-
-void OnPieceDown(Piece *piece, Vector2 mousePosition)
+void OnPieceDown(Piece *piece, Container containers[8][8], Vector2 mousePosition)
 {
 
     if (piece->down)
@@ -50,11 +33,39 @@ void OnPieceDown(Piece *piece, Vector2 mousePosition)
 
     case King:
     {
+        int i = 0;
     }
     break;
 
     case Pawn:
     {
+        int indX = piece->indX;
+        int indY = piece->indY;
+
+        int x1 = 0;
+        int y1 = 0;
+
+        int x2 = 0;
+        int y2 = 0;
+
+        if (piece->color == 1)
+        {
+            Container container2 = containers[indX][indY - 2];
+            Container container = containers[indX][indY - 1];
+
+            x1 = container.rect.x;
+            y1 = container.rect.y;
+
+            x2 = container2.rect.x;
+            y2 = container2.rect.y;
+        }
+        else
+        {
+
+        }
+
+        DrawCircle(x1 + 30, y1 + 30, 10, LIGHTGRAY);
+        DrawCircle(x2 + 30, y2 + 30, 10, LIGHTGRAY);
     }
     break;
     }
