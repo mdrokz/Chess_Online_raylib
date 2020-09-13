@@ -50,22 +50,29 @@ void OnPieceDown(Piece *piece, Container containers[8][8], Vector2 mousePosition
 
         if (piece->color == 1)
         {
-            Container container2 = containers[indX][indY - 2];
             Container container = containers[indX][indY - 1];
+            Container container2 = containers[indX][indY - 2];
 
-            x1 = container.rect.x;
-            y1 = container.rect.y;
+            x1 = container.rect.x + 30;
+            y1 = container.rect.y + 30;
 
-            x2 = container2.rect.x;
-            y2 = container2.rect.y;
+            x2 = container2.rect.x + 30;
+            y2 = container2.rect.y + 30;
         }
         else
         {
+            Container container = containers[indX][indY + 1];
+            Container container2 = containers[indX][indY + 2];
 
+            x1 = container.rect.x;
+            y1 = container.rect.y + 10;
+
+            x2 = container2.rect.x;
+            y2 = container2.rect.y + 10;
         }
 
-        DrawCircle(x1 + 30, y1 + 30, 10, LIGHTGRAY);
-        DrawCircle(x2 + 30, y2 + 30, 10, LIGHTGRAY);
+        DrawCircle(x1, y1, 10, LIGHTGRAY);
+        DrawCircle(x2, y2, 10, LIGHTGRAY);
     }
     break;
     }
